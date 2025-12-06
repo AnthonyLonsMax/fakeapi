@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/ProImpact/fakeapi/model"
@@ -14,10 +13,9 @@ func Put(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http
 		return
 	}
 	var body map[string]any
-	err := json.NewDecoder(r.Body).Decode(&body)
+	err := util.ValidateRequest(r, body)
 	if err != nil {
-		w.Write([]byte(err.Error()))
-		w.WriteHeader(400)
+		model.ValidationError(w, err, r.URL.Path)
 		return
 	}
 	apiData.Data[resource][id] = body

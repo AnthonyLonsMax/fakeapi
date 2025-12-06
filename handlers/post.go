@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/ProImpact/fakeapi/model"
@@ -10,10 +9,9 @@ import (
 
 func Post(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
 	var body map[string]any
-	err := json.NewDecoder(r.Body).Decode(&body)
+	err := util.ValidateRequest(r, body)
 	if err != nil {
-		w.Write([]byte(err.Error()))
-		w.WriteHeader(400)
+		model.ValidationError(w, err, r.URL.Path)
 		return
 	}
 	apiData.Data[resource] = append(apiData.Data[resource], body)
