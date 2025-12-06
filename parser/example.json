@@ -1,0 +1,13 @@
+{
+  "files": [
+    {
+      "name": "anthony",
+      "status": false
+    },
+    {
+      "name": "marlon",
+      "status": true
+    }
+  ],
+  "user": [{}]
+}
