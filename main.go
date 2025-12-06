@@ -1,37 +1,37 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
+	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/ProImpact/fakeapi/parser"
+	"github.com/ProImpact/fakeapi/server"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+)
+
+var (
+	port = flag.Int("port", 8080, "Server port for accept connections")
+	file = flag.String("file", "fakeapi.json", "Server data for generate the endpoints")
 )
 
 const prefix = "api"
 
 func main() {
-	r, err := parser.Open("./parser/example.json")
+	flag.Parse()
+	r, err := parser.Open(*file)
 	if err != nil {
+		flag.PrintDefaults()
 		log.Fatal(err)
 	}
 	router := chi.NewRouter()
-	router.Use(middleware.Logger)
-	// Middleware CORS simple para desarrollo
-	router.Use(func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Access-Control-Allow-Origin", "*")
-			w.Header().Set("Access-Control-Allow-Methods", "*")
-			w.Header().Set("Access-Control-Allow-Headers", "*")
-			if r.Method == "OPTIONS" {
-				w.WriteHeader(http.StatusOK)
-				return
-			}
-			next.ServeHTTP(w, r)
-		})
-	})
+	server.AddMiddlewares(router)
+	server.AddLogger(os.Stdout)
 
-	parser.AddRoutes(prefix, router, *r)
-	log.Fatal(http.ListenAndServe(":4000", router))
+	parser.AddRoutes(prefix, router, r)
+	slog.Info("Server started", "port", *port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }

@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/ProImpact/fakeapi/model"
 	"github.com/ProImpact/fakeapi/util"
 )
 
-func Post(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
+func Post(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
 	var body map[string]any
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
@@ -15,6 +16,6 @@ func Post(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	apiData = append(apiData, body)
-	util.SendJson(apiData[len(apiData)-1], w)
+	apiData.Data[resource] = append(apiData.Data[resource], body)
+	util.SendJson(apiData.Data[resource][len(apiData.Data[resource])-1], w)
 }

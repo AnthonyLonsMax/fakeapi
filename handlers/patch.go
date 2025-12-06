@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/ProImpact/fakeapi/model"
 	"github.com/ProImpact/fakeapi/util"
 )
 
-func Patch(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
-	id, shouldReturn := getPathID(r, w, apiData)
+func Patch(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+	id, shouldReturn := getPathID(r, w, apiData.Data[resource])
 	if shouldReturn {
 		return
 	}
@@ -19,6 +20,6 @@ func Patch(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	util.PartialUpdate(body, apiData[id])
-	util.SendJson(apiData[id], w)
+	util.PartialUpdate(body, apiData.Data[resource][id])
+	util.SendJson(apiData.Data[resource][id], w)
 }

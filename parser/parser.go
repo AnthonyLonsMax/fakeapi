@@ -13,8 +13,8 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func Open(path string) (*model.Route, error) {
-	var payload *model.Route
+func Open(path string) (*model.ApiData, error) {
+	var payload model.Route
 	fileData, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -23,40 +23,42 @@ func Open(path string) (*model.Route, error) {
 	if err != nil {
 		return nil, err
 	}
-	return payload, nil
+	return &model.ApiData{
+		Data: payload,
+	}, nil
 }
 
 var methods = []string{
 	"GET", "POST", "PUT", "DELETE", "PATCH",
 }
 
-func AddRoutes(prefix string, router *chi.Mux, route model.Route) {
-	for routePath := range route {
+func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
+	for routePath := range route.Data {
 		for _, method := range methods {
 			path := fmt.Sprintf("%s /%s/%s", method, prefix, routePath)
 			switch method {
 			case "GET":
 				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-					handlers.Get(route[routePath], w, r)
+					handlers.Get(route, routePath, w, r)
+				})
+				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
+					handlers.GetID(route, routePath, w, r)
 				})
 				log.Println(path)
-				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
-					handlers.GetID(route[routePath], w, r)
-				})
 				log.Println(path + "/{id}")
 			case "POST":
 				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-					handlers.Post(route[routePath], w, r)
+					handlers.Post(route, routePath, w, r)
 				})
 				log.Println(path)
 			case "PATCH":
 				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-					handlers.Patch(route[routePath], w, r)
+					handlers.Patch(route, routePath, w, r)
 				})
 				log.Println(path + "/{id}")
 			case "DELETE":
 				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-					handlers.Delete(route[routePath], w, r)
+					handlers.Delete(route, routePath, w, r)
 				})
 				log.Println(path + "/{id}")
 			}

@@ -4,19 +4,20 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/ProImpact/fakeapi/model"
 	"github.com/ProImpact/fakeapi/util"
 )
 
-func Get(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
-	util.SendJson(apiData, w)
+func Get(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+	util.SendJson(apiData.Data[resource], w)
 }
 
-func GetID(apiData []map[string]any, w http.ResponseWriter, r *http.Request) {
-	id, shouldReturn := getPathID(r, w, apiData)
+func GetID(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+	id, shouldReturn := getPathID(r, w, apiData.Data[resource])
 	if shouldReturn {
 		return
 	}
-	util.SendJson(apiData[id-1], w)
+	util.SendJson(apiData.Data[resource][id-1], w)
 }
 
 func getPathID(r *http.Request, w http.ResponseWriter, apiData []map[string]any) (int, bool) {
