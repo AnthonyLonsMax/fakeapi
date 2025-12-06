@@ -29,7 +29,7 @@ func Open(path string) (*model.ApiData, error) {
 }
 
 var methods = []string{
-	"GET", "POST", "PUT", "DELETE", "PATCH",
+	"GET", "POST", "PUT", "DELETE", "PATCH", "PUT",
 }
 
 func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
@@ -59,6 +59,11 @@ func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
 			case "DELETE":
 				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
 					handlers.Delete(route, routePath, w, r)
+				})
+				log.Println(path + "/{id}")
+			case "PUT":
+				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
+					handlers.Put(route, routePath, w, r)
 				})
 				log.Println(path + "/{id}")
 			}
