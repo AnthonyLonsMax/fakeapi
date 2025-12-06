@@ -19,3 +19,5 @@
 ## Improve persistence mechanic
 
 ## CORS
+
+## Add swagger

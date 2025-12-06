@@ -10,6 +10,7 @@ import (
 
 	"github.com/ProImpact/fakeapi/handlers"
 	"github.com/ProImpact/fakeapi/model"
+	"github.com/go-chi/chi/v5"
 )
 
 func Open(path string) (*model.Route, error) {
@@ -29,7 +30,7 @@ var methods = []string{
 	"GET", "POST", "PUT", "DELETE", "PATCH",
 }
 
-func AddRoutes(prefix string, router *http.ServeMux, route model.Route) {
+func AddRoutes(prefix string, router *chi.Mux, route model.Route) {
 	for routePath := range route {
 		for _, method := range methods {
 			path := fmt.Sprintf("%s /%s/%s", method, prefix, routePath)
