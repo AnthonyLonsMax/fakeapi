@@ -33,5 +33,5 @@ func getPathID(r *http.Request, w http.ResponseWriter, apiData []map[string]any)
 		w.Write([]byte("Index out of range"))
 		return 0, true
 	}
-	return id, false
+	return id - 1, false
 }

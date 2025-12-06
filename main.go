@@ -30,7 +30,6 @@ func main() {
 	router := chi.NewRouter()
 	server.AddMiddlewares(router)
 	server.AddLogger(os.Stdout)
-
 	parser.AddRoutes(prefix, router, r)
 	slog.Info("Server started", "port", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))

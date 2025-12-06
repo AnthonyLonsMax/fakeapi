@@ -52,12 +52,12 @@ func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
 				})
 				log.Println(path)
 			case "PATCH":
-				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
 					handlers.Patch(route, routePath, w, r)
 				})
 				log.Println(path + "/{id}")
 			case "DELETE":
-				router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+				router.HandleFunc(path+"/{id}", func(w http.ResponseWriter, r *http.Request) {
 					handlers.Delete(route, routePath, w, r)
 				})
 				log.Println(path + "/{id}")
