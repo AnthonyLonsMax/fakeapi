@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"slices"
 	"strconv"
 	"time"
 
@@ -46,11 +47,14 @@ func Get(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http
 		}, w, 400)
 		return
 	}
+	sortKey := util.GetStringFromQuery(r, "sort", "key")
+	arrayCopy := slices.Clone(apiData.Data[resource])
+	util.SortMap(arrayCopy, sortKey)
 	if offset+limit >= len(apiData.Data[resource])-1 {
-		util.SendJson(apiData.Data[resource][offset:], w, 200)
+		util.SendJson(arrayCopy, w, 200)
 		return
 	}
-	util.SendJson(apiData.Data[resource][offset:limit], w, 200)
+	util.SendJson(arrayCopy[offset:limit], w, 200)
 }
 
 func GetID(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
