@@ -1,13 +1,19 @@
 {
-  "files": [
+  "authors": [
     {
       "name": "anthony",
-      "status": false
+      "age": 21,
+      "active": false
     },
     {
-      "name": "marlon",
+      "name": "miguel",
+      "age": 32,
+      "status": true
+    },
+    {
+      "name": "jesus",
+      "age": 32,
       "status": true
     }
-  ],
-  "user": [{}]
+  ]
 }

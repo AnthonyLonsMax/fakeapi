@@ -8,11 +8,11 @@
 
 ## Fourth day add more data -> DONE
 
-## Add logger capabilities and debugging
+## Add logger capabilities and debugging -> DONE
 
-## Improve error handling
+## Improve error handling -> DONE
 
-## Improve the api response with like emailbatch
+## Improve the api response with like emailbatch -> DONE
 
 ## Pagination and sorting
 
@@ -21,3 +21,5 @@
 ## CORS
 
 ## Add swagger
+
+## Add config file for protected routes basic auth and jwt

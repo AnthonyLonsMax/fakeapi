@@ -29,7 +29,7 @@ func Open(path string) (*model.ApiData, error) {
 }
 
 var methods = []string{
-	"GET", "POST", "PUT", "DELETE", "PATCH", "PUT",
+	"GET", "POST", "PUT", "DELETE", "PATCH",
 }
 
 func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
