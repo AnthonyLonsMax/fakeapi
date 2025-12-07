@@ -11,9 +11,9 @@ import (
 	"github.com/ProImpact/fakeapi/model"
 )
 
-func SendJson(data any, w http.ResponseWriter) error {
+func SendJson(data any, w http.ResponseWriter, status int) error {
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
+	w.WriteHeader(status)
 	return json.NewEncoder(w).Encode(&model.SuccessResp{
 		Data:      data,
 		TimeStamp: time.Now(),

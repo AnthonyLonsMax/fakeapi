@@ -15,5 +15,5 @@ func Post(apiData *model.ApiData, resource string, w http.ResponseWriter, r *htt
 		return
 	}
 	apiData.Data[resource] = append(apiData.Data[resource], body)
-	util.SendJson(apiData.Data[resource][len(apiData.Data[resource])-1], w)
+	util.SendJson(apiData.Data[resource][len(apiData.Data[resource])-1], w, 200)
 }

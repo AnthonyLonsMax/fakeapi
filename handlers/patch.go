@@ -19,5 +19,5 @@ func Patch(apiData *model.ApiData, resource string, w http.ResponseWriter, r *ht
 		return
 	}
 	util.PartialUpdate(body, apiData.Data[resource][id])
-	util.SendJson(apiData.Data[resource][id], w)
+	util.SendJson(apiData.Data[resource][id], w, 200)
 }

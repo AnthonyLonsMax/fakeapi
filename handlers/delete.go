@@ -14,5 +14,5 @@ func Delete(apiData *model.ApiData, resource string, w http.ResponseWriter, r *h
 		return
 	}
 	apiData.Data[resource] = slices.Delete(apiData.Data[resource], id, id+1)
-	util.SendJson(apiData, w)
+	util.SendJson(apiData, w, 200)
 }

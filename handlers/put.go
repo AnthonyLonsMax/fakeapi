@@ -19,5 +19,5 @@ func Put(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http
 		return
 	}
 	apiData.Data[resource][id] = body
-	util.SendJson(apiData.Data[resource][id], w)
+	util.SendJson(apiData.Data[resource][id], w, 200)
 }
