@@ -1,4 +1,4 @@
-package model
+package types
 
 type Route = map[string][]map[string]any
 

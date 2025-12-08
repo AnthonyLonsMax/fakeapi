@@ -3,11 +3,11 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/ProImpact/fakeapi/model"
+	"github.com/ProImpact/fakeapi/types"
 	"github.com/ProImpact/fakeapi/util"
 )
 
-func Patch(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+func Patch(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
 	id, shouldReturn := getPathID(r, w, apiData.Data[resource])
 	if shouldReturn {
 		return
@@ -15,7 +15,7 @@ func Patch(apiData *model.ApiData, resource string, w http.ResponseWriter, r *ht
 	var body map[string]any
 	err := util.ValidateRequest(r, body)
 	if err != nil {
-		model.ValidationError(w, err, r.URL.Path)
+		types.ValidationError(w, err, r.URL.Path)
 		return
 	}
 	util.PartialUpdate(body, apiData.Data[resource][id])

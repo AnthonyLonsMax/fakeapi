@@ -8,13 +8,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ProImpact/fakeapi/model"
+	"github.com/ProImpact/fakeapi/types"
 	"github.com/ProImpact/fakeapi/util"
 )
 
 func invalidValueResponse(w http.ResponseWriter, r *http.Request, err error) {
-	util.SendJson(&model.RequestErr{
-		Code:      model.INVALID_VALUE,
+	util.SendJson(&types.RequestErr{
+		Code:      types.INVALID_VALUE,
 		Message:   err.Error(),
 		TimeStamp: time.Now(),
 		Path:      r.URL.Path,
@@ -23,7 +23,7 @@ func invalidValueResponse(w http.ResponseWriter, r *http.Request, err error) {
 	}, w, 400)
 }
 
-func Get(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+func Get(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
 	limit, err := util.GetIntFromQuery(r, "limit", 10)
 	if err != nil {
 		invalidValueResponse(w, r, err)
@@ -37,8 +37,8 @@ func Get(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http
 	}
 	log.Println("Query param", "offset", offset)
 	if offset < 0 || offset > len(apiData.Data[resource])-1 {
-		util.SendJson(&model.RequestErr{
-			Code:      model.OUT_OF_RANGE,
+		util.SendJson(&types.RequestErr{
+			Code:      types.OUT_OF_RANGE,
 			Message:   fmt.Sprintf("Offset should be greater than 0 and lower than %d", len(apiData.Data)),
 			TimeStamp: time.Now(),
 			Path:      r.URL.Path,
@@ -57,7 +57,7 @@ func Get(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http
 	util.SendJson(arrayCopy[offset:limit], w, 200)
 }
 
-func GetID(apiData *model.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
+func GetID(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
 	id, shouldReturn := getPathID(r, w, apiData.Data[resource])
 	if shouldReturn {
 		return
@@ -69,13 +69,25 @@ func getPathID(r *http.Request, w http.ResponseWriter, apiData []map[string]any)
 	pathID := r.PathValue("id")
 	id, err := strconv.Atoi(pathID)
 	if err != nil {
-		w.WriteHeader(400)
-		w.Write([]byte(err.Error()))
+		util.SendJson(&types.RequestErr{
+			Code:      types.INVALID_ARGUMENT,
+			Message:   err.Error(),
+			TimeStamp: time.Now(),
+			Path:      r.URL.Path,
+			Status:    http.StatusBadRequest,
+			Fault:     "client",
+		}, w, 400)
 		return 0, true
 	}
 	if id > len(apiData) || id == 0 {
-		w.WriteHeader(404)
-		w.Write([]byte("Index out of range"))
+		util.SendJson(&types.RequestErr{
+			Code:      types.INVALID_ARGUMENT,
+			Message:   "index out of range",
+			TimeStamp: time.Now(),
+			Path:      r.URL.Path,
+			Status:    http.StatusBadRequest,
+			Fault:     "client",
+		}, w, 404)
 		return 0, true
 	}
 	return id - 1, false

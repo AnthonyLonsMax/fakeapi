@@ -9,12 +9,12 @@ import (
 	"os"
 
 	"github.com/ProImpact/fakeapi/handlers"
-	"github.com/ProImpact/fakeapi/model"
+	"github.com/ProImpact/fakeapi/types"
 	"github.com/go-chi/chi/v5"
 )
 
-func Open(path string) (*model.ApiData, error) {
-	var payload model.Route
+func Open(path string) (*types.ApiData, error) {
+	var payload types.Route
 	fileData, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -23,7 +23,7 @@ func Open(path string) (*model.ApiData, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &model.ApiData{
+	return &types.ApiData{
 		Data: payload,
 	}, nil
 }
@@ -32,7 +32,7 @@ var methods = []string{
 	"GET", "POST", "PUT", "DELETE", "PATCH",
 }
 
-func AddRoutes(prefix string, router *chi.Mux, route *model.ApiData) {
+func AddRoutes(prefix string, router *chi.Mux, route *types.ApiData) {
 	for routePath := range route.Data {
 		for _, method := range methods {
 			path := fmt.Sprintf("%s /%s/%s", method, prefix, routePath)

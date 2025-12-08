@@ -8,13 +8,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ProImpact/fakeapi/model"
+	"github.com/ProImpact/fakeapi/types"
 )
 
 func SendJson(data any, w http.ResponseWriter, status int) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	return json.NewEncoder(w).Encode(&model.SuccessResp{
+	return json.NewEncoder(w).Encode(&types.SuccessResp{
 		Data:      data,
 		TimeStamp: time.Now(),
 	})

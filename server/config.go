@@ -1,11 +1,11 @@
 package server
 
 import (
-	"encoding/json"
 	"net/http"
 	"time"
 
-	"github.com/ProImpact/fakeapi/model"
+	"github.com/ProImpact/fakeapi/types"
+	"github.com/ProImpact/fakeapi/util"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -26,13 +26,13 @@ func AddMiddlewares(router *chi.Mux) {
 		})
 	})
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(&model.RequestErr{
-			Code:      model.RESOURCE_NOT_FOUND,
+		util.SendJson(&types.RequestErr{
+			Code:      types.RESOURCE_NOT_FOUND,
 			Message:   "Page not found",
 			TimeStamp: time.Now(),
 			Path:      r.URL.Path,
 			Status:    http.StatusNotFound,
 			Fault:     "client",
-		})
+		}, w, 404)
 	})
 }
