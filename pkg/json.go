@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ProImpact/fakeapi/internal/types"
+	"github.com/AnthonyLonsMax/fakeapi/internal/types"
 )
 
 func SendJson(data any, w http.ResponseWriter, status int) error {

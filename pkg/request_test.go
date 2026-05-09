@@ -3,7 +3,7 @@ package pkg_test
 import (
 	"testing"
 
-	"github.com/ProImpact/fakeapi/pkg"
+	"github.com/AnthonyLonsMax/fakeapi/pkg"
 )
 
 func TestSortMap(t *testing.T) {

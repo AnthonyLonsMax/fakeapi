@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/ProImpact/fakeapi/internal/types"
-	"github.com/ProImpact/fakeapi/pkg"
+	"github.com/AnthonyLonsMax/fakeapi/internal/types"
+	"github.com/AnthonyLonsMax/fakeapi/pkg"
 )
 
 func Delete(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {

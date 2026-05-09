@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ProImpact/fakeapi/internal/parser"
-	"github.com/ProImpact/fakeapi/internal/server"
+	"github.com/AnthonyLonsMax/fakeapi/internal/parser"
+	"github.com/AnthonyLonsMax/fakeapi/internal/server"
 	"github.com/go-chi/chi/v5"
 )
 

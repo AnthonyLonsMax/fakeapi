@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ProImpact/fakeapi/internal/types"
-	"github.com/ProImpact/fakeapi/pkg"
+	"github.com/AnthonyLonsMax/fakeapi/internal/types"
+	"github.com/AnthonyLonsMax/fakeapi/pkg"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
