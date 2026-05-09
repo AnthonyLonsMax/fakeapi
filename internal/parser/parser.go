@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ProImpact/fakeapi/handlers"
-	"github.com/ProImpact/fakeapi/types"
+	"github.com/ProImpact/fakeapi/internal/handlers"
+	"github.com/ProImpact/fakeapi/internal/types"
 	"github.com/go-chi/chi/v5"
 )
 

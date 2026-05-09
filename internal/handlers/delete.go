@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/ProImpact/fakeapi/types"
-	"github.com/ProImpact/fakeapi/util"
+	"github.com/ProImpact/fakeapi/internal/types"
+	"github.com/ProImpact/fakeapi/pkg"
 )
 
 func Delete(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
@@ -14,5 +14,5 @@ func Delete(apiData *types.ApiData, resource string, w http.ResponseWriter, r *h
 		return
 	}
 	apiData.Data[resource] = slices.Delete(apiData.Data[resource], id, id+1)
-	util.SendJson(apiData, w, 200)
+	pkg.SendJson(apiData, w, 200)
 }

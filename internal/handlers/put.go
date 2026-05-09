@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/ProImpact/fakeapi/types"
-	"github.com/ProImpact/fakeapi/util"
+	"github.com/ProImpact/fakeapi/internal/types"
+	"github.com/ProImpact/fakeapi/pkg"
 )
 
 func Put(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
@@ -13,11 +13,11 @@ func Put(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http
 		return
 	}
 	var body map[string]any
-	err := util.ValidateRequest(r, body)
+	err := pkg.ValidateRequest(r, body)
 	if err != nil {
 		types.ValidationError(w, err, r.URL.Path)
 		return
 	}
 	apiData.Data[resource][id] = body
-	util.SendJson(apiData.Data[resource][id], w, 200)
+	pkg.SendJson(apiData.Data[resource][id], w, 200)
 }

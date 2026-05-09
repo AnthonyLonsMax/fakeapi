@@ -1,9 +1,9 @@
-package util_test
+package pkg_test
 
 import (
 	"testing"
 
-	"github.com/ProImpact/fakeapi/util"
+	"github.com/ProImpact/fakeapi/pkg"
 )
 
 func TestSortMap(t *testing.T) {
@@ -51,7 +51,7 @@ func TestSortMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			util.SortMap(tt.values, tt.key)
+			pkg.SortMap(tt.values, tt.key)
 			t.Log(tt.values)
 		})
 	}

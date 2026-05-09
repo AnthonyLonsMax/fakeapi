@@ -1,9 +1,9 @@
-package util_test
+package pkg_test
 
 import (
 	"testing"
 
-	"github.com/ProImpact/fakeapi/util"
+	"github.com/ProImpact/fakeapi/pkg"
 )
 
 func TestPartialUpdate(t *testing.T) {
@@ -25,7 +25,7 @@ func TestPartialUpdate(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			util.PartialUpdate(tt.src, tt.dest)
+			pkg.PartialUpdate(tt.src, tt.dest)
 			nameData := tt.dest["name"].([]string)
 			if len(nameData) != 2 {
 				t.Fatalf("expexted 2 names got %d", len(nameData))

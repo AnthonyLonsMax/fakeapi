@@ -8,12 +8,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ProImpact/fakeapi/types"
-	"github.com/ProImpact/fakeapi/util"
+	"github.com/ProImpact/fakeapi/internal/types"
+	"github.com/ProImpact/fakeapi/pkg"
 )
 
 func invalidValueResponse(w http.ResponseWriter, r *http.Request, err error) {
-	util.SendJson(&types.RequestErr{
+	pkg.SendJson(&types.RequestErr{
 		Code:      types.INVALID_VALUE,
 		Message:   err.Error(),
 		TimeStamp: time.Now(),
@@ -24,20 +24,20 @@ func invalidValueResponse(w http.ResponseWriter, r *http.Request, err error) {
 }
 
 func Get(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
-	limit, err := util.GetIntFromQuery(r, "limit", 10)
+	limit, err := pkg.GetIntFromQuery(r, "limit", 10)
 	if err != nil {
 		invalidValueResponse(w, r, err)
 		return
 	}
 	log.Println("Query param", "limit", limit)
-	offset, err := util.GetIntFromQuery(r, "offset", 0)
+	offset, err := pkg.GetIntFromQuery(r, "offset", 0)
 	if err != nil {
 		invalidValueResponse(w, r, err)
 		return
 	}
 	log.Println("Query param", "offset", offset)
 	if offset < 0 || offset > len(apiData.Data[resource])-1 {
-		util.SendJson(&types.RequestErr{
+		pkg.SendJson(&types.RequestErr{
 			Code:      types.OUT_OF_RANGE,
 			Message:   fmt.Sprintf("Offset should be greater than 0 and lower than %d", len(apiData.Data)),
 			TimeStamp: time.Now(),
@@ -47,14 +47,14 @@ func Get(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http
 		}, w, 400)
 		return
 	}
-	sortKey := util.GetStringFromQuery(r, "sort", "key")
+	sortKey := pkg.GetStringFromQuery(r, "sort", "key")
 	arrayCopy := slices.Clone(apiData.Data[resource])
-	util.SortMap(arrayCopy, sortKey)
+	pkg.SortMap(arrayCopy, sortKey)
 	if offset+limit >= len(apiData.Data[resource])-1 {
-		util.SendJson(arrayCopy, w, 200)
+		pkg.SendJson(arrayCopy, w, 200)
 		return
 	}
-	util.SendJson(arrayCopy[offset:limit], w, 200)
+	pkg.SendJson(arrayCopy[offset:limit], w, 200)
 }
 
 func GetID(apiData *types.ApiData, resource string, w http.ResponseWriter, r *http.Request) {
@@ -62,14 +62,14 @@ func GetID(apiData *types.ApiData, resource string, w http.ResponseWriter, r *ht
 	if shouldReturn {
 		return
 	}
-	util.SendJson(apiData.Data[resource][id], w, 200)
+	pkg.SendJson(apiData.Data[resource][id], w, 200)
 }
 
 func getPathID(r *http.Request, w http.ResponseWriter, apiData []map[string]any) (int, bool) {
 	pathID := r.PathValue("id")
 	id, err := strconv.Atoi(pathID)
 	if err != nil {
-		util.SendJson(&types.RequestErr{
+		pkg.SendJson(&types.RequestErr{
 			Code:      types.INVALID_ARGUMENT,
 			Message:   err.Error(),
 			TimeStamp: time.Now(),
@@ -80,7 +80,7 @@ func getPathID(r *http.Request, w http.ResponseWriter, apiData []map[string]any)
 		return 0, true
 	}
 	if id > len(apiData) || id == 0 {
-		util.SendJson(&types.RequestErr{
+		pkg.SendJson(&types.RequestErr{
 			Code:      types.INVALID_ARGUMENT,
 			Message:   "index out of range",
 			TimeStamp: time.Now(),

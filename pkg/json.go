@@ -1,4 +1,4 @@
-package util
+package pkg
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ProImpact/fakeapi/types"
+	"github.com/ProImpact/fakeapi/internal/types"
 )
 
 func SendJson(data any, w http.ResponseWriter, status int) error {
