@@ -106,7 +106,7 @@ curl http://localhost:8080/api/authors
 ## Install
 
 ```bash
-go install github.com/ProImpact/fakeapi@latest
+go install github.com/AnthonyLonsMax/fakeapi@latest
 ```
 
 ## Tests

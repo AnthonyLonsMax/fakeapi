@@ -1,4 +1,4 @@
-module github.com/ProImpact/fakeapi
+module github.com/AnthonyLonsMax/fakeapi
 
 go 1.25.0
 
