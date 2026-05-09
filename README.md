@@ -106,7 +106,7 @@ curl http://localhost:8080/api/authors
 ## Install
 
 ```bash
-go install github.com/AnthonyLonsMax/fakeapi/cmd@v1.1.1
+go install github.com/AnthonyLonsMax/fakeapi@v1.1.3
 ```
 
 ## Tests
